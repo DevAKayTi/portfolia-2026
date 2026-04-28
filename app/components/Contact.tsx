@@ -6,17 +6,22 @@ const contacts = [
         href: "tel:09965127172",
     },
     {
-        icon: "💼",
+        icon: "✉️",
+        label: "Gmail",
+        value: "devakayti@gmail.com",
+        href: "https://mail.google.com/mail/?view=cm&to=devakayti@gmail.com&su=Let%27s%20Work%20Together&body=Hi%20Aung%20Kyaw%20Thu%2C%0A%0AI%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect.",
+    },
+    {
         label: "LinkedIn",
         value: "linkedin.com/in/aung-kyaw-thu-44160125b",
         href: "https://linkedin.com/in/aung-kyaw-thu-44160125b/",
     },
-    {
-        icon: "📍",
-        label: "Location",
-        value: "Thingangyan Township, Yangon",
-        href: "#",
-    },
+    // {
+    //     icon: "📍",
+    //     label: "Location",
+    //     value: "Thingangyan Township, Yangon",
+    //     href: "#",
+    // },
 ];
 
 export default function Contact() {
@@ -57,7 +62,9 @@ export default function Contact() {
                             Let&apos;s build something great.
                         </p>
                         <a
-                            href="mailto:aungkyawthu@example.com"
+                            href="https://mail.google.com/mail/?view=cm&to=devakayti@gmail.com&su=Let%27s%20Work%20Together&body=Hi%20Aung%20Kyaw%20Thu%2C%0A%0AI%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect."
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="btn-primary"
                             style={{ display: "inline-flex", fontSize: "1rem", padding: "0.85rem 2rem" }}
                         >

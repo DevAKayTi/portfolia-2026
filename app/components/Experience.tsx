@@ -57,7 +57,7 @@ export default function Experience() {
                         <div
                             key={exp.company}
                             className="card"
-                            style={{ position: "relative", paddingLeft: "2.5rem" }}
+                            style={{ position: "relative", paddingLeft: "2.5rem", overflow: "hidden" }}
                         >
                             {/* Timeline accent bar */}
                             <div
