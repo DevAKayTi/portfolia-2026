@@ -110,14 +110,6 @@ export default function Navbar() {
                     >
                         {isLight ? "🌙" : "☀️"}
                     </button>
-
-                    <a
-                        href="#contact"
-                        className="btn-primary"
-                        style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem" }}
-                    >
-                        Hire Me
-                    </a>
                 </nav>
 
                 {/* Mobile: Theme + Hamburger */}
@@ -165,7 +157,13 @@ export default function Navbar() {
             {menuOpen && (
                 <div
                     style={{
-                        background: isLight ? "rgba(248,250,252,0.97)" : "rgba(10,10,15,0.97)",
+                        // background: isLight ? "rgba(248,250,252,0.97)" : "rgba(10,10,15,0.97)",
+                        transition: "all 0.3s ease",
+                        background: isLight
+                            ? "rgba(248,250,252,0.68)"
+                            : "rgba(10,10,15,0.68)",
+                        backdropFilter: "blur(10px)",
+                        WebkitBackdropFilter: "blur(24px)",
                         borderTop: "1px solid var(--border)",
                         padding: "1.5rem",
                         display: "flex",
@@ -184,14 +182,6 @@ export default function Navbar() {
                             {link.label}
                         </a>
                     ))}
-                    <a
-                        href="#contact"
-                        className="btn-primary"
-                        style={{ width: "fit-content" }}
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        Hire Me
-                    </a>
                 </div>
             )}
 
