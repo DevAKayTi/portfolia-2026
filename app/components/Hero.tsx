@@ -115,8 +115,13 @@ export default function Hero() {
                         Get in touch
                         <span>→</span>
                     </a>
-                    <a href="#experience" className="btn-secondary">
-                        View my work
+                    <a
+                        href="/Aung_Kyaw_Thu_Resume.pdf"
+                        download="Aung Kyaw Thu Resume.pdf"
+                        className="btn-secondary"
+                        style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
+                    >
+                        ↓ Download CV
                     </a>
                 </div>
 
