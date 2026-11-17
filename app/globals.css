@@ -251,6 +251,12 @@ body::before {
   pointer-events: none;
 }
 
+/* Cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
 /* Fade-in animation */
 @keyframes fadeUp {
   from {

@@ -1,4 +1,7 @@
 
+import AnimatedGrid from "./AnimatedGrid";
+import TypewriterText from "./TypewriterText";
+
 export default function Hero() {
     return (
         <section
@@ -36,19 +39,10 @@ export default function Hero() {
                 }}
             />
 
-            {/* Grid pattern overlay */}
-            <div
-                style={{
-                    position: "absolute",
-                    inset: 0,
-                    backgroundImage:
-                        "radial-gradient(circle at 1px 1px, rgba(99,102,241,0.07) 1px, transparent 0)",
-                    backgroundSize: "40px 40px",
-                    pointerEvents: "none",
-                }}
-            />
+            {/* Animated grid background */}
+            <AnimatedGrid />
 
-            <div className="container" style={{ position: "relative", zIndex: 2 }}>
+            <div className="container" style={{ position: "relative", zIndex: 3 }}>
                 <div className="fade-up fade-up-1">
                     <span
                         style={{
@@ -91,7 +85,7 @@ export default function Hero() {
                         marginBottom: "1.5rem",
                     }}
                 >
-                    Full Stack Developer
+                    Full Stack <TypewriterText />
                 </h2>
 
                 <p
@@ -104,10 +98,9 @@ export default function Hero() {
                         marginBottom: "2.5rem",
                     }}
                 >
-                    4+ years building scalable, user-focused web applications and business systems.
-                    Skilled in <span style={{ color: "var(--accent2)" }}>React / Next.js</span> and{" "}
-                    <span style={{ color: "var(--accent2)" }}>PHP / Laravel</span>, with experience in Docker,
-                    Kubernetes, and CI/CD pipelines.
+                    I build modern web applications and business systems.
+                    Skilled in <span style={{ color: "var(--accent2)" }}>React / Next.js</span>,
+                    <span style={{ color: "var(--accent2)" }}> PHP / Laravel</span>, with experience in Docker and turn ideas into scalable digital solutions.
                 </p>
 
                 <div className="fade-up fade-up-4" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>

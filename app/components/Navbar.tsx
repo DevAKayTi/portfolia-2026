@@ -50,13 +50,13 @@ export default function Navbar() {
                 style={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "space-between",
+                    justifyContent: "center",
                     paddingTop: "1rem",
                     paddingBottom: "1rem",
                 }}
             >
                 {/* Logo */}
-                <Link href="#" style={{ textDecoration: "none" }}>
+                {/* <Link href="#" style={{ textDecoration: "none" }}>
                     <span
                         style={{
                             fontFamily: "'JetBrains Mono', monospace",
@@ -68,7 +68,7 @@ export default function Navbar() {
                     >
                         AKT<span style={{ color: "#6366f1" }}>.</span>
                     </span>
-                </Link>
+                </Link> */}
 
                 {/* Desktop Nav */}
                 <nav
