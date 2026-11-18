@@ -8,6 +8,7 @@ const navLinks = [
     { href: "#about",      label: "About"      },
     { href: "#skills",     label: "Skills"     },
     { href: "#experience", label: "Experience" },
+    { href: "#projects",   label: "Projects"   },
     { href: "#education",  label: "Education"  },
     { href: "#contact",    label: "Contact"    },
 ];
@@ -27,20 +28,40 @@ export default function Navbar() {
     // ── Track active section ──────────────────────────────────────
     useEffect(() => {
         const ids = navLinks.map((l) => l.href.replace("#", ""));
-        const observers: IntersectionObserver[] = [];
 
-        ids.forEach((id) => {
-            const el = document.getElementById(id);
-            if (!el) return;
-            const obs = new IntersectionObserver(
-                ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
-                { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
-            );
-            obs.observe(el);
-            observers.push(obs);
-        });
+        /*
+         * Strategy: use a single IntersectionObserver per section.
+         * rootMargin "-20% 0px -60% 0px" fires when the section's top
+         * edge enters the top 20–40% band of the viewport — wide enough
+         * to catch sections with overflow:clip (like Experience) and
+         * short sections near the bottom of the page.
+         *
+         * "Last active wins" via a scroll-position tiebreaker: on each
+         * scroll event we pick the section whose top is closest to (but
+         * still above) 35% of the viewport height.
+         */
+        const pickActive = () => {
+            const viewH   = window.innerHeight;
+            const trigger = viewH * 0.35;
+            let   best: { id: string; dist: number } | null = null;
 
-        return () => observers.forEach((o) => o.disconnect());
+            for (const id of ids) {
+                const el = document.getElementById(id);
+                if (!el) continue;
+                const top = el.getBoundingClientRect().top;
+                // section whose top is at or above the trigger line
+                if (top <= trigger) {
+                    const dist = trigger - top; // smaller = closer to trigger from above
+                    if (!best || dist < best.dist) best = { id, dist };
+                }
+            }
+            if (best) setActiveSection(best.id);
+        };
+
+        window.addEventListener("scroll", pickActive, { passive: true });
+        pickActive(); // run once on mount
+
+        return () => window.removeEventListener("scroll", pickActive);
     }, []);
 
     // ── Slide the pill to the active link ────────────────────────

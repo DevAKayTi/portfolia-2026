@@ -138,7 +138,7 @@ export default function Skills() {
     }, []);
 
     return (
-        <section ref={sectionRef} id="skills" className="section" style={{ background: "var(--section-alt)" }}>
+        <section ref={sectionRef} id="skills" className="section">
             <div className="divider" />
             <div className="container" style={{ paddingTop: "4rem" }}>
 
@@ -188,7 +188,7 @@ export default function Skills() {
                     <div style={{
                         width: "1px",
                         alignSelf: "stretch",
-                        background: "linear-gradient(to bottom, transparent, var(--border) 15%, var(--border) 85%, transparent)",
+                        background: "transparent",
                         flexShrink: 0,
                         minHeight: "100%",
                     }} />
@@ -215,7 +215,7 @@ export default function Skills() {
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: "0.5rem",
-                                        animation: `${isDown ? "scrollDown" : "scrollUp"} 30s linear infinite`,
+                                        animation: `${isDown ? "scrollDown" : "scrollUp"} 50s linear infinite`,
                                     }}>
                                         {/* Render twice for seamless loop */}
                                         {[...colSkills, ...colSkills].map((skill, i) => {
@@ -237,7 +237,7 @@ export default function Skills() {
                                                         fontSize: "0.78rem",
                                                         flexShrink: 0,
                                                         // border: "none",
-                                                        // background: "transparent",
+                                                        background: `color-mix(in srgb, ${skill.color} 10%, transparent)`,
                                                     } as React.CSSProperties}
                                                 >
                                                     <Icon style={{
@@ -257,7 +257,12 @@ export default function Skills() {
                     </div>
                 </div>
             </div>
-            <div className="divider" style={{ marginTop: "4rem" }} />
+            <div
+                className="divider"
+                style={{
+                    marginTop: "4rem",
+                    background: "transparent"
+                }} />
 
             <style>{`
                 @keyframes scrollUp {
