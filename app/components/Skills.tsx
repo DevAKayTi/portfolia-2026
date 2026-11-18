@@ -38,11 +38,6 @@ const skillGroups: SkillGroup[] = [
             { name: "Node.js", icon: SiNodedotjs, color: "#83cd29" },
             { name: "REST APIs", icon: FaServer, color: "#6366f1" },
             { name: "JWT / Auth", icon: FaShieldAlt, color: "#d63aff" },
-        ],
-    },
-    {
-        category: "Database & ORM", emoji: "🗄️",
-        skills: [
             { name: "MySQL", icon: SiMysql, color: "#f29111" },
             { name: "PostgreSQL", icon: SiPostgresql, color: "#336791" },
             { name: "Prisma", icon: SiPrisma, color: "#5a67d8" },
@@ -116,7 +111,9 @@ function ProgressBar({ name, icon: Icon, color, level, animate }: {
 
 export default function Skills() {
     const sectionRef = useRef<HTMLElement>(null);
+    const leftRef = useRef<HTMLDivElement>(null);
     const [animate, setAnimate] = useState(false);
+    const [leftHeight, setLeftHeight] = useState<number | undefined>(undefined);
 
     // Trigger progress bar animation when section enters viewport
     useEffect(() => {
@@ -128,6 +125,16 @@ export default function Skills() {
         );
         obs.observe(el);
         return () => obs.disconnect();
+    }, []);
+
+    // Track left column height
+    useEffect(() => {
+        const el = leftRef.current;
+        if (!el) return;
+        const ro = new ResizeObserver(() => setLeftHeight(el.offsetHeight));
+        ro.observe(el);
+        setLeftHeight(el.offsetHeight);
+        return () => ro.disconnect();
     }, []);
 
     return (
@@ -155,7 +162,7 @@ export default function Skills() {
                 }}>
 
                     {/* ── LEFT: Technical Skills + progress bars ── */}
-                    <div>
+                    <div ref={leftRef}>
                         {/* Sub-title */}
                         <p style={{
                             fontSize: "0.7rem",
@@ -186,63 +193,58 @@ export default function Skills() {
                         minHeight: "100%",
                     }} />
 
-                    {/* ── RIGHT: skill badge groups ── */}
-                    <div>
-                        {/* Sub-title */}
-                        <p style={{
-                            fontSize: "0.7rem",
-                            fontWeight: 700,
-                            letterSpacing: "0.12em",
-                            textTransform: "uppercase",
-                            color: "var(--accent2)",
-                            fontFamily: "'JetBrains Mono', monospace",
-                            marginBottom: "0.5rem",
-                        }}>
-                            🛠️ Full Stack
-                        </p>
-                        <p style={{ color: "var(--muted)", lineHeight: 1.8, marginBottom: "1.75rem", fontSize: "0.9rem" }}>
-                            A broad toolkit spanning frontend, backend, database, and DevOps.
-                        </p>
+                    {/* ── RIGHT: 3-column infinite scroll marquee ── */}
+                    <div style={{
+                        maxHeight: leftHeight ?? "none",
+                        overflow: "hidden",
+                        display: "grid",
+                        gridTemplateColumns: "repeat(3, 1fr)",
+                        gap: "0.5rem",
+                    }}>
+                        {[0, 1, 2].map((colIdx) => {
+                            const colSkills = skillGroups[colIdx].skills;
+                            const isDown = colIdx === 1;
 
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
-                            {skillGroups.map((group) => (
-                                <div key={group.category}>
-                                    {/* Category label */}
-                                    {/* <div style={{
-                                        // display: "flex",
-                                        alignItems: "center",
-                                        gap: "0.5rem",
-                                        fontSize: "0.7rem",
-                                        fontWeight: 700,
-                                        letterSpacing: "0.12em",
-                                        textTransform: "uppercase",
-                                        color: "#6366f1",
-                                        marginBottom: "0.75rem",
-                                        fontFamily: "'JetBrains Mono', monospace",
-                                    }}>
-                                        <div style={{ fontSize: "1rem" }}>{group.emoji}</div>
-                                        {group.category}
-                                    </div> */}
-
-                                    {/* Badges */}
+                            return (
+                                <div
+                                    key={colIdx}
+                                    style={{ overflow: "hidden", position: "relative" }}
+                                >
+                                    {/* Duplicated list for seamless loop */}
                                     <div style={{
                                         display: "flex",
                                         flexDirection: "column",
-                                        gap: "0.4rem",
+                                        gap: "0.5rem",
+                                        animation: `${isDown ? "scrollDown" : "scrollUp"} 30s linear infinite`,
                                     }}>
-                                        {group.skills.map((skill) => {
+                                        {/* Render twice for seamless loop */}
+                                        {[...colSkills, ...colSkills].map((skill, i) => {
                                             const Icon = skill.icon;
                                             return (
                                                 <span
-                                                    key={skill.name}
+                                                    key={`${colIdx}-${i}`}
                                                     className="skill-badge skill-badge-icon"
-                                                    style={{ "--skill-color": skill.color, width: "100%", justifyContent: "flex-start" } as React.CSSProperties}
+                                                    style={{
+                                                        "--skill-color": skill.color,
+                                                        flexDirection: "column",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        gap: "0.35rem",
+                                                        padding: "0.5rem 0",
+                                                        width: "100%",
+                                                        aspectRatio: "1 / 1",
+                                                        textAlign: "center",
+                                                        fontSize: "0.78rem",
+                                                        flexShrink: 0,
+                                                        // border: "none",
+                                                        // background: "transparent",
+                                                    } as React.CSSProperties}
                                                 >
                                                     <Icon style={{
-                                                        fontSize: "1rem",
-                                                        flexShrink: 0,
+                                                        fontSize: "2.5rem",
                                                         color: skill.color,
                                                         filter: `drop-shadow(0 0 4px ${skill.color}55)`,
+                                                        flexShrink: 0,
                                                     }} />
                                                     {skill.name}
                                                 </span>
@@ -250,16 +252,34 @@ export default function Skills() {
                                         })}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
             <div className="divider" style={{ marginTop: "4rem" }} />
 
             <style>{`
+                @keyframes scrollUp {
+                    0%   { transform: translateY(0); }
+                    100% { transform: translateY(-50%); }
+                }
+                @keyframes scrollDown {
+                    0%   { transform: translateY(-50%); }
+                    100% { transform: translateY(0); }
+                }
                 .skill-badge-icon {
                     transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.15s;
+                }
+                .marquee-badge {
+                    border: none !important;
+                    background: transparent !important;
+                    box-shadow: none !important;
+                }
+                .marquee-badge:hover {
+                    border: none !important;
+                    background: transparent !important;
+                    transform: scale(1.08);
                 }
                 .skill-badge-icon:hover {
                     border-color: var(--skill-color, var(--accent));
