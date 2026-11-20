@@ -1,6 +1,6 @@
 // ── Groq Provider ─────────────────────────────────────────────────
 // Uses Groq's OpenAI-compatible chat/completions endpoint with streaming.
-// Free-tier model: llama-3.3-70b-versatile (verified free as of 2026)
+// Free-tier model: qwen/qwen3.8-27b (verified free as of 2026)
 // Docs: https://console.groq.com/docs/openai
 
 import type { AIProvider, ChatMessage } from "./types";
@@ -9,8 +9,8 @@ import { SYSTEM_INSTRUCTION } from "@/app/components/ai-assistant/portfolio-cont
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
-// Free-tier models on Groq (choose one; listed in preference order)
-// llama-3.3-70b-versatile: 32k context, free tier
+// Free-tier models on Groq — verified available from this key's access list
+// openai/gpt-oss-120b: Qwen 3.8 27B general-purpose LLM, free tier
 const GROQ_MODEL = "openai/gpt-oss-120b";
 
 export class GroqProvider implements AIProvider {

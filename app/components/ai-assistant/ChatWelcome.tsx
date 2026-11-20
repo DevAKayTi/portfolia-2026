@@ -35,7 +35,7 @@ export default function ChatWelcome({ onSuggest }: ChatWelcomeProps) {
                     margin: 0,
                 }}>
                     Hi there! I&apos;m the <strong style={{ color: "var(--accent2)" }}>AI assistant</strong> for
-                    Aung Kyaw Thu&apos;s portfolio — powered by Gemini. Ask me anything about his skills, experience, or projects!
+                    Aung Kyaw Thu&apos;s portfolio — powered by AI. Ask me anything about his skills, experience, or projects!
                 </p>
             </div>
 

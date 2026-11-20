@@ -92,7 +92,7 @@ export default function ChatHeader({
                         background: "#22c55e",
                         display: "inline-block",
                     }} />
-                    Online · Powered by Gemini
+                    Online · Powered by AI
                 </div>
             </div>
 
