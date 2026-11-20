@@ -157,6 +157,17 @@ export default function Contact() {
 
     return (
         <section id="contact" className="section">
+            <div aria-hidden style={{
+                position: "absolute",
+                top: "30%",
+                right: "-200px",
+                width: "420px",
+                height: "420px",
+                borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(139,92,246,0.12), transparent 70%)",
+                pointerEvents: "none",
+                zIndex: 0,
+            }} />
             <div className="container">
 
                 {/* ── Section header ── */}
