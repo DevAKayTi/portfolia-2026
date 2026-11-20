@@ -25,6 +25,10 @@ function formatTime(date: Date) {
 }
 
 export default function ChatMessages({ messages, isTyping, messagesEndRef }: ChatMessagesProps) {
+    // Show 3-dot indicator only while waiting for the first chunk (no streaming message yet)
+    const hasStreamingMessage = messages.some((m) => m.isStreaming);
+    const showTypingDots = isTyping && !hasStreamingMessage;
+
     return (
         <div
             role="log"
@@ -44,8 +48,8 @@ export default function ChatMessages({ messages, isTyping, messagesEndRef }: Cha
                 <MessageBubble key={msg.id} message={msg} />
             ))}
 
-            {/* Typing indicator */}
-            {isTyping && (
+            {/* Typing indicator — only while waiting for first stream chunk */}
+            {showTypingDots && (
                 <div
                     style={{
                         display: "flex",
@@ -95,6 +99,10 @@ export default function ChatMessages({ messages, isTyping, messagesEndRef }: Cha
                     from { opacity: 0; transform: translateY(8px); }
                     to   { opacity: 1; transform: translateY(0);   }
                 }
+                @keyframes aiStreamCursor {
+                    0%, 100% { opacity: 1; }
+                    50%      { opacity: 0; }
+                }
             `}</style>
         </div>
     );
@@ -103,6 +111,9 @@ export default function ChatMessages({ messages, isTyping, messagesEndRef }: Cha
 /* ── Individual bubble ─────────────────────────────────────────── */
 function MessageBubble({ message }: { message: Message }) {
     const isUser = message.role === "user";
+    const isError = message.isError;
+    const isStreaming = message.isStreaming;
+
     return (
         <div
             style={{
@@ -122,17 +133,29 @@ function MessageBubble({ message }: { message: Message }) {
                         borderRadius: isUser
                             ? "1rem 1rem 2px 1rem"
                             : "1rem 1rem 1rem 2px",
-                        background: isUser
+                        background: isError
+                            ? "rgba(239,68,68,0.08)"
+                            : isUser
                             ? "var(--accent)"
                             : "var(--surface2)",
-                        border: isUser ? "none" : "1px solid var(--border)",
-                        color: isUser ? "#fff" : "var(--text)",
+                        border: isError
+                            ? "1px solid rgba(239,68,68,0.25)"
+                            : isUser ? "none" : "1px solid var(--border)",
+                        color: isError
+                            ? "#ef4444"
+                            : isUser ? "#fff" : "var(--text)",
                         fontSize: "0.875rem",
                         lineHeight: 1.6,
                         wordBreak: "break-word",
                     }}
                 >
-                    {renderContent(message.content)}
+                    {isError && (
+                        <span style={{ marginRight: "0.35rem" }}>⚠️</span>
+                    )}
+                    {message.content ? renderContent(message.content) : (
+                        isStreaming && <StreamingCursor />
+                    )}
+                    {isStreaming && message.content && <StreamingCursor />}
                 </div>
                 <span style={{
                     fontSize: "0.68rem",
@@ -145,6 +168,23 @@ function MessageBubble({ message }: { message: Message }) {
                 </span>
             </div>
         </div>
+    );
+}
+
+/* ── Streaming cursor indicator ──────────────────────────────── */
+function StreamingCursor() {
+    return (
+        <span
+            style={{
+                display: "inline-block",
+                width: "2px",
+                height: "1em",
+                background: "var(--accent)",
+                marginLeft: "2px",
+                verticalAlign: "text-bottom",
+                animation: "aiStreamCursor 0.8s ease-in-out infinite",
+            }}
+        />
     );
 }
 

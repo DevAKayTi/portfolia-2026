@@ -60,7 +60,7 @@ export default function ChatInput({
                 marginBottom: "0.5rem",
                 textAlign: "center",
             }}>
-                ⚡ Simulated responses · Enter to send · Shift+Enter for newline
+                ✨ Powered by Gemini · Enter to send · Shift+Enter for newline
             </p>
 
             <div

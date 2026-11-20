@@ -34,8 +34,8 @@ export default function ChatWelcome({ onSuggest }: ChatWelcomeProps) {
                     lineHeight: 1.6,
                     margin: 0,
                 }}>
-                    Hi there! I&apos;m a <strong style={{ color: "var(--accent2)" }}>simulated AI assistant</strong> for
-                    Aung Kyaw Thu&apos;s portfolio. Ask me anything about his skills, experience, or projects!
+                    Hi there! I&apos;m the <strong style={{ color: "var(--accent2)" }}>AI assistant</strong> for
+                    Aung Kyaw Thu&apos;s portfolio — powered by Gemini. Ask me anything about his skills, experience, or projects!
                 </p>
             </div>
 

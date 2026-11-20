@@ -185,7 +185,7 @@ function ExpandedWelcome({ onSuggest }: { onSuggest: (t: string) => void }) {
                     color: "var(--muted)",
                     lineHeight: 1.6,
                 }}>
-                    I&apos;m a <strong style={{ color: "var(--accent2)" }}>simulated</strong> assistant for Aung Kyaw Thu&apos;s portfolio.
+                    I&apos;m the <strong style={{ color: "var(--accent2)" }}>AI assistant</strong> for Aung Kyaw Thu&apos;s portfolio — powered by Gemini.
                     Ask me about his skills, experience, or projects.
                 </p>
             </div>
