@@ -245,7 +245,7 @@ function ConstellationBg({ isLight }: { isLight: boolean }) {
             /* Soft radial vignette to blend into section bg */
             const vig = ctx.createRadialGradient(W / 2, H / 2, H * 0.1, W / 2, H / 2, H * 0.85);
             vig.addColorStop(0, light ? "rgba(255,255,255,1)" : "rgba(0,0,0,0)");
-            vig.addColorStop(1, light ? "rgba(248,250,252,0.72)" : "rgba(5,5,15,0.65)");
+            // vig.addColorStop(1, light ? "rgba(248,250,252,0.72)" : "rgba(5,5,15,0.4)");
             ctx.fillStyle = vig;
             ctx.fillRect(0, 0, W, H);
 

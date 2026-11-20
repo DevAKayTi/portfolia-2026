@@ -171,7 +171,8 @@ function ConstellationBg({ isLight }: { isLight: boolean }) {
                 ctx.fillStyle = light ? `rgba(${AR},${AG},${AB},${a * 0.7})` : `rgba(180,185,255,${a * 0.8})`; ctx.fill();
             });
             const vig = ctx.createRadialGradient(W / 2, H / 2, H * 0.1, W / 2, H / 2, H * 0.85);
-            vig.addColorStop(0, light ? "rgba(255,255,255,1)" : "rgba(0,0,0,0)"); vig.addColorStop(1, light ? "rgba(248,250,252,0.72)" : "rgba(5,5,15,0.65)");
+            vig.addColorStop(0, light ? "rgba(255,255,255,1)" : "rgba(0,0,0,0)");
+            // vig.addColorStop(1, light ? "rgba(248,250,252,0.72)" : "rgba(5,5,15,0.65)");
             ctx.fillStyle = vig; ctx.fillRect(0, 0, W, H);
             time += 0.012;
         };
@@ -369,7 +370,7 @@ export default function Projects() {
     const others = projects.filter(p => !p.featured);
 
     return (
-        <section id="projects" className="section" style={{ position: "relative", overflow: "hidden", background: "var(--section-alt)" }}>
+        <section id="projects" className="section" style={{ position: "relative", overflow: "hidden", background: "var(--bg)" }}>
 
             {/* Same constellation background as Experience */}
             <ConstellationBg isLight={isLight} />
