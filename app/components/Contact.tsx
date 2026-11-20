@@ -156,7 +156,7 @@ export default function Contact() {
     const { copied, copy } = useCopy(EMAIL);
 
     return (
-        <section id="contact" className="section">
+        <section id="contact" className="section" style={{ position: "relative", overflow: "hidden" }}>
             <div aria-hidden style={{
                 position: "absolute",
                 top: "30%",
