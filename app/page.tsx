@@ -7,6 +7,7 @@ import Projects from "@/app/components/Projects";
 import Education from "@/app/components/Education";
 import Contact from "@/app/components/Contact";
 import Footer from "@/app/components/Footer";
+import AIAssistant from "@/app/components/ai-assistant/AIAssistant";
 
 export default function Home() {
   return (
@@ -22,6 +23,8 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      {/* AI Portfolio Assistant — fixed overlay, all three display states */}
+      <AIAssistant />
     </>
   );
 }
