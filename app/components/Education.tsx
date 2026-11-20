@@ -220,7 +220,7 @@ export default function Education() {
                 </div>
 
                 {/* ── Three stat cards ── */}
-                <div style={{
+                <div className="edu-stats" style={{
                     display: "grid",
                     gridTemplateColumns: "repeat(3, 1fr)",
                     gap: "1rem",

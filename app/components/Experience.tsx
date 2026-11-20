@@ -576,10 +576,10 @@ export default function Experience() {
                         style={{
                             position: "absolute",
                             /* align with center of the 28px node column */
-                            left: "13px",
+                            left: "12px",
                             top: "14px",
                             bottom: "14px",
-                            width: "2px",
+                            width: "4px",
                             background: isLight
                                 ? "linear-gradient(to bottom, #6366f1, #8b5cf6, #a78bfa, transparent)"
                                 : "linear-gradient(to bottom, #6366f1aa, #8b5cf688, #a78bfa44, transparent)",
