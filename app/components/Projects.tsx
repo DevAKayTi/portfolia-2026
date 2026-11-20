@@ -171,7 +171,7 @@ function ConstellationBg({ isLight }: { isLight: boolean }) {
                 ctx.fillStyle = light ? `rgba(${AR},${AG},${AB},${a * 0.7})` : `rgba(180,185,255,${a * 0.8})`; ctx.fill();
             });
             const vig = ctx.createRadialGradient(W / 2, H / 2, H * 0.1, W / 2, H / 2, H * 0.85);
-            vig.addColorStop(0, "rgba(0,0,0,0)"); vig.addColorStop(1, light ? "rgba(248,248,255,0.55)" : "rgba(5,5,15,0.65)");
+            vig.addColorStop(0, light ? "rgba(255,255,255,1)" : "rgba(0,0,0,0)"); vig.addColorStop(1, light ? "rgba(248,250,252,0.72)" : "rgba(5,5,15,0.65)");
             ctx.fillStyle = vig; ctx.fillRect(0, 0, W, H);
             time += 0.012;
         };
@@ -289,20 +289,26 @@ function ProjectCard({ project, idx }: { project: Project; idx: number }) {
 
                 {/* Tech tags */}
                 <div style={{ display: "flex", gap: "0.45rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
-                    {project.tags.map(({ name, Icon, color }) => (
-                        <span key={name} style={{
-                            display: "inline-flex", alignItems: "center", gap: "0.35rem",
-                            fontSize: "0.72rem", padding: "0.2rem 0.6rem", borderRadius: "0.3rem",
-                            fontFamily: "'JetBrains Mono', monospace",
-                            background: `color-mix(in srgb, ${color} 10%, transparent)`,
-                            color,
-                            border: `1px solid color-mix(in srgb, ${color} 30%, transparent)`,
-                            textShadow: `0 0 8px color-mix(in srgb, ${color} 35%, transparent)`,
-                        }}>
-                            <Icon style={{ fontSize: "0.75rem", flexShrink: 0 }} />
-                            {name}
-                        </span>
-                    ))}
+                    {project.tags.map(({ name, Icon, color }) => {
+                        // In light mode, white (#fff / #a0aec0) tags are invisible — remap to readable dark colour
+                        const effectiveColor = isLight && (color === "#ffffff" || color === "#a0aec0")
+                            ? "#4b5563"
+                            : color;
+                        return (
+                            <span key={name} style={{
+                                display: "inline-flex", alignItems: "center", gap: "0.35rem",
+                                fontSize: "0.72rem", padding: "0.2rem 0.6rem", borderRadius: "0.3rem",
+                                fontFamily: "'JetBrains Mono', monospace",
+                                background: `color-mix(in srgb, ${effectiveColor} 10%, transparent)`,
+                                color: effectiveColor,
+                                border: `1px solid color-mix(in srgb, ${effectiveColor} 30%, transparent)`,
+                                textShadow: isLight ? "none" : `0 0 8px color-mix(in srgb, ${effectiveColor} 35%, transparent)`,
+                            }}>
+                                <Icon style={{ fontSize: "0.75rem", flexShrink: 0 }} />
+                                {name}
+                            </span>
+                        );
+                    })}
                 </div>
 
                 {/* Action links */}
@@ -363,7 +369,7 @@ export default function Projects() {
     const others = projects.filter(p => !p.featured);
 
     return (
-        <section id="projects" className="section" style={{ position: "relative", overflow: "hidden" }}>
+        <section id="projects" className="section" style={{ position: "relative", overflow: "hidden", background: "var(--section-alt)" }}>
 
             {/* Same constellation background as Experience */}
             <ConstellationBg isLight={isLight} />

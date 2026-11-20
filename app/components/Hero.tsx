@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import AnimatedGrid from "./AnimatedGrid";
+import { useEffect, useState } from "react";import AnimatedGrid from "./AnimatedGrid";
 import TypewriterText from "./TypewriterText";
 
 /* ── Blinking cursor ── */
@@ -195,6 +194,16 @@ const stats = [
 ];
 
 export default function Hero() {
+    const [isLight, setIsLight] = useState(false);
+    useEffect(() => {
+        const update = () =>
+            setIsLight(document.documentElement.getAttribute("data-theme") === "light");
+        update();
+        const obs = new MutationObserver(update);
+        obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        return () => obs.disconnect();
+    }, []);
+
     return (
         <section
             id="hero"
@@ -208,9 +217,9 @@ export default function Hero() {
                 paddingTop: "7rem",
             }}
         >
-            {/* Glow blobs */}
-            <div className="glow-blob" style={{ width: "500px", height: "500px", background: "radial-gradient(circle,#6366f1,transparent 70%)", top: "-100px", left: "-150px" }} />
-            <div className="glow-blob" style={{ width: "400px", height: "400px", background: "radial-gradient(circle,#8b5cf6,transparent 70%)", bottom: "-80px", right: "-100px", opacity: 0.1 }} />
+            {/* Glow blobs — toned down in light mode */}
+            <div className="glow-blob" style={{ width: "500px", height: "500px", background: "radial-gradient(circle,#6366f1,transparent 70%)", top: "-100px", left: "-150px", opacity: isLight ? 0.08 : 1 }} />
+            <div className="glow-blob" style={{ width: "400px", height: "400px", background: "radial-gradient(circle,#8b5cf6,transparent 70%)", bottom: "-80px", right: "-100px", opacity: isLight ? 0.06 : 0.1 }} />
 
             <AnimatedGrid />
 

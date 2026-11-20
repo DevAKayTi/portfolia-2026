@@ -81,8 +81,8 @@ const experiences = [
    · Theme-aware colours; paused when section is off-screen
    ──────────────────────────────────────────────────────────────── */
 function ConstellationBg({ isLight }: { isLight: boolean }) {
-    const canvasRef  = useRef<HTMLCanvasElement>(null);
-    const mouseRef   = useRef({ x: -9999, y: -9999 });
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const mouseRef = useRef({ x: -9999, y: -9999 });
     const isLightRef = useRef(isLight);
     useEffect(() => { isLightRef.current = isLight; }, [isLight]);
 
@@ -102,9 +102,9 @@ function ConstellationBg({ isLight }: { isLight: boolean }) {
         };
 
         const PARTICLE_COUNT = 55;
-        const CONNECT_DIST   = 140;
-        const MOUSE_PULL     = 90;   // px — attraction radius
-        const MOUSE_FORCE    = 0.012;
+        const CONNECT_DIST = 140;
+        const MOUSE_PULL = 90;   // px — attraction radius
+        const MOUSE_FORCE = 0.012;
 
         let W = 0, H = 0;
         let particles: P[] = [];
@@ -115,11 +115,11 @@ function ConstellationBg({ isLight }: { isLight: boolean }) {
         /* ── Build particles ── */
         const init = () => {
             particles = Array.from({ length: PARTICLE_COUNT }, () => ({
-                x:     Math.random() * W,
-                y:     Math.random() * H,
-                vx:    (Math.random() - 0.5) * 0.3,
-                vy:    (Math.random() - 0.5) * 0.3,
-                r:     1 + Math.random() * 1.5,
+                x: Math.random() * W,
+                y: Math.random() * H,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                r: 1 + Math.random() * 1.5,
                 alpha: 0.3 + Math.random() * 0.5,
                 phase: Math.random() * Math.PI * 2,
             }));
@@ -129,7 +129,7 @@ function ConstellationBg({ isLight }: { isLight: boolean }) {
         const resize = () => {
             W = canvas.offsetWidth;
             H = canvas.offsetHeight;
-            canvas.width  = W;
+            canvas.width = W;
             canvas.height = H;
             init();
         };
@@ -183,14 +183,14 @@ function ConstellationBg({ isLight }: { isLight: boolean }) {
                 /* Damping + drift */
                 p.vx *= 0.98;
                 p.vy *= 0.98;
-                p.x  += p.vx;
-                p.y  += p.vy;
+                p.x += p.vx;
+                p.y += p.vy;
 
                 /* Soft wrap */
-                if (p.x < -20)  p.x = W + 20;
-                if (p.x > W+20) p.x = -20;
-                if (p.y < -20)  p.y = H + 20;
-                if (p.y > H+20) p.y = -20;
+                if (p.x < -20) p.x = W + 20;
+                if (p.x > W + 20) p.x = -20;
+                if (p.y < -20) p.y = H + 20;
+                if (p.y > H + 20) p.y = -20;
             });
 
             /* Draw connecting lines */
@@ -198,10 +198,10 @@ function ConstellationBg({ isLight }: { isLight: boolean }) {
                 for (let j = i + 1; j < particles.length; j++) {
                     const a = particles[i], b = particles[j];
                     const dx = a.x - b.x, dy = a.y - b.y;
-                    const d  = Math.sqrt(dx * dx + dy * dy);
+                    const d = Math.sqrt(dx * dx + dy * dy);
                     if (d > CONNECT_DIST) continue;
 
-                    const fade  = 1 - d / CONNECT_DIST;
+                    const fade = 1 - d / CONNECT_DIST;
                     const baseA = light ? 0.08 : 0.07;
                     const alpha = baseA * fade * fade;
 
@@ -209,7 +209,7 @@ function ConstellationBg({ isLight }: { isLight: boolean }) {
                     ctx.moveTo(a.x, a.y);
                     ctx.lineTo(b.x, b.y);
                     ctx.strokeStyle = `rgba(${AR},${AG},${AB},${alpha})`;
-                    ctx.lineWidth   = 0.8;
+                    ctx.lineWidth = 0.8;
                     ctx.stroke();
                 }
             }
@@ -219,7 +219,7 @@ function ConstellationBg({ isLight }: { isLight: boolean }) {
                 /* Shimmer */
                 const shimmer = 0.5 + 0.5 * Math.sin(time * 1.4 + p.phase);
                 /* Mouse proximity brightness boost */
-                const dx   = mx - p.x, dy = my - p.y;
+                const dx = mx - p.x, dy = my - p.y;
                 const mdist = Math.sqrt(dx * dx + dy * dy);
                 const boost = Math.max(0, 1 - mdist / MOUSE_PULL) * 0.6;
                 const a = Math.min(1, (p.alpha + boost) * (0.75 + shimmer * 0.25));
@@ -244,8 +244,8 @@ function ConstellationBg({ isLight }: { isLight: boolean }) {
 
             /* Soft radial vignette to blend into section bg */
             const vig = ctx.createRadialGradient(W / 2, H / 2, H * 0.1, W / 2, H / 2, H * 0.85);
-            vig.addColorStop(0, "rgba(0,0,0,0)");
-            vig.addColorStop(1, light ? "rgba(248,248,255,0.55)" : "rgba(5,5,15,0.65)");
+            vig.addColorStop(0, light ? "rgba(255,255,255,1)" : "rgba(0,0,0,0)");
+            vig.addColorStop(1, light ? "rgba(248,250,252,0.72)" : "rgba(5,5,15,0.65)");
             ctx.fillStyle = vig;
             ctx.fillRect(0, 0, W, H);
 
@@ -289,10 +289,10 @@ function TimelineEntry({
     isLast: boolean;
 }) {
     const { theme } = useTheme();
-    const isLight   = theme === "light";
-    const [hovered, setHovered]   = useState(false);
-    const [visible, setVisible]   = useState(false);
-    const entryRef  = useRef<HTMLDivElement>(null);
+    const isLight = theme === "light";
+    const [hovered, setHovered] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const entryRef = useRef<HTMLDivElement>(null);
 
     /* Each card observes itself — fires when ITS top enters the viewport */
     useEffect(() => {
@@ -334,7 +334,7 @@ function TimelineEntry({
                 gridTemplateColumns: "auto 1fr",
                 gap: "0 1.75rem",
                 /* Slide up + fade in individually */
-                opacity:   visible ? 1 : 0,
+                opacity: visible ? 1 : 0,
                 transform: visible ? "translateY(0) scale(1)" : "translateY(32px) scale(0.98)",
                 transition: "opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1)",
             }}
@@ -549,7 +549,7 @@ export default function Experience() {
     const isLight = theme === "light";
 
     return (
-        <section id="experience" className="section" style={{ position: "relative", overflow: "hidden" }}>
+        <section id="experience" className="section" style={{ position: "relative", overflow: "hidden", background: "var(--bg)" }}>
 
             {/* ── Interactive constellation background ── */}
             <ConstellationBg isLight={isLight} />

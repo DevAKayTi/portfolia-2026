@@ -15,6 +15,10 @@ export default function AnimatedGrid() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const mouseRef = useRef({ x: -9999, y: -9999 });
 
+    // Track light/dark theme via CSS variable on <html>
+    const isLightMode = () =>
+        document.documentElement.getAttribute("data-theme") === "light";
+
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -75,6 +79,7 @@ export default function AnimatedGrid() {
             const H = canvas.height;
             const mx = mouseRef.current.x;
             const my = mouseRef.current.y;
+            const light = isLightMode();
 
             ctx.clearRect(0, 0, W, H);
 
@@ -117,7 +122,8 @@ export default function AnimatedGrid() {
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     const mouseBoost = Math.max(0, 1 - dist / 200) * 0.5;
 
-                    const alpha = Math.max(0, 0.04 + wave * 0.04 + mouseBoost);
+                    const baseA = light ? 0.07 : 0.04;
+                    const alpha = Math.max(0, baseA + wave * 0.04 + mouseBoost);
 
                     const grad = ctx.createLinearGradient(x, y, x, y + CELL);
                     grad.addColorStop(0, `rgba(${ACCENT_R},${ACCENT_G},${ACCENT_B},${alpha})`);
@@ -138,23 +144,24 @@ export default function AnimatedGrid() {
                 for (let c = 0; c < cols - 1; c++) {
                     const x = c * CELL;
 
-                    const wave = Math.sin(time * 1.0 + c * 0.4 + r * 0.6) * 0.5 + 0.5;
+                    const wave2 = Math.sin(time * 1.0 + c * 0.4 + r * 0.6) * 0.5 + 0.5;
 
-                    const dx = (x + CELL / 2) - mx;
-                    const dy = y - my;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    const mouseBoost = Math.max(0, 1 - dist / 200) * 0.5;
+                    const dx2 = (x + CELL / 2) - mx;
+                    const dy2 = y - my;
+                    const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+                    const mouseBoost2 = Math.max(0, 1 - dist2 / 200) * 0.5;
 
-                    const alpha = Math.max(0, 0.04 + wave * 0.04 + mouseBoost);
+                    const baseA2 = light ? 0.07 : 0.04;
+                    const alpha2 = Math.max(0, baseA2 + wave2 * 0.04 + mouseBoost2);
 
-                    const grad = ctx.createLinearGradient(x, y, x + CELL, y);
-                    grad.addColorStop(0, `rgba(${ACCENT_R},${ACCENT_G},${ACCENT_B},${alpha})`);
-                    grad.addColorStop(1, `rgba(${ACCENT_R},${ACCENT_G},${ACCENT_B},${alpha * 0.5})`);
+                    const grad2 = ctx.createLinearGradient(x, y, x + CELL, y);
+                    grad2.addColorStop(0, `rgba(${ACCENT_R},${ACCENT_G},${ACCENT_B},${alpha2})`);
+                    grad2.addColorStop(1, `rgba(${ACCENT_R},${ACCENT_G},${ACCENT_B},${alpha2 * 0.5})`);
 
                     ctx.beginPath();
                     ctx.moveTo(x, y);
                     ctx.lineTo(x + CELL, y);
-                    ctx.strokeStyle = grad;
+                    ctx.strokeStyle = grad2;
                     ctx.lineWidth = 0.5;
                     ctx.stroke();
                 }
@@ -196,10 +203,12 @@ export default function AnimatedGrid() {
             ctx.fillRect(-60, -H * 2, 120, H * 4);
             ctx.restore();
 
-            // ── Vignette mask ─────────────────────────────────────────
+            // ── Vignette mask — theme-aware ───────────────────────────
+            const vigColor = light ? "248,250,252" : "10,10,15";
+            const vigAlpha = light ? 0.72 : 0.75;
             const vig = ctx.createRadialGradient(W / 2, H / 2, H * 0.2, W / 2, H / 2, H * 0.9);
-            vig.addColorStop(0, "rgba(10,10,15,0)");
-            vig.addColorStop(1, "rgba(10,10,15,0.75)");
+            vig.addColorStop(0, `rgba(${vigColor},0)`);
+            vig.addColorStop(1, `rgba(${vigColor},${vigAlpha})`);
             ctx.fillStyle = vig;
             ctx.fillRect(0, 0, W, H);
 
